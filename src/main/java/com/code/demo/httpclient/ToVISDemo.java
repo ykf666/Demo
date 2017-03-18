@@ -17,7 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-public class TestVIS {
+public class ToVISDemo {
 
 	private final static String APPSECRET_STRING = "651958d6e25b45afabc8b5a5bc973498";
 
