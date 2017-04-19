@@ -1,4 +1,4 @@
-package com.code.demo;
+package com.code.demo.simple;
 
 import java.io.FileOutputStream;
 import java.sql.Connection;

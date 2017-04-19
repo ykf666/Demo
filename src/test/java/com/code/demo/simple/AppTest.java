@@ -1,4 +1,4 @@
-package com.code.demo;
+package com.code.demo.simple;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
