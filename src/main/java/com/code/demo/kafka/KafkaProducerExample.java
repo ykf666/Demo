@@ -24,8 +24,8 @@ public class KafkaProducerExample implements Runnable {
 
 	private final Producer<String, String> producer;
 
-	public KafkaProducerExample(String topic) {
-		properties.put("bootstrap.servers", "10.60.1.246:9092,10.60.1.248:9092,10.60.1.249:9092");
+	public KafkaProducerExample(String brokerList, String topic) {
+		properties.put("bootstrap.servers", brokerList);
 		properties.put("acks", "all");
 		properties.put("retries", 0); // 消息发送请求失败重试次数
 		properties.put("batch.size", 2000);
