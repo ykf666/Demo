@@ -1,8 +1,8 @@
-package com.code.demo.junit;
+package com.code.demo.unit;
 
 public class Calculator {
 
-	static int result; // 静态变量，用于存储运行结果
+	public static int result; // 静态变量，用于存储运行结果
 	
 	public void add(int n) {
 		result = result + n;

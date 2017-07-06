@@ -1,4 +1,4 @@
-package com.code.demo.junit;
+package com.code.demo.unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

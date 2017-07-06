@@ -1,4 +1,4 @@
-package com.code.demo.junit;
+package com.code.demo.unit.junit;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -13,9 +13,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.code.demo.junit.Student;
+import com.code.demo.unit.Student;
 
-public class StudentTest {
+public class ExceptionTest {
 	
 	@BeforeClass
 	public static void beforeTest(){
@@ -95,19 +95,19 @@ public class StudentTest {
 	 */
 	@Test
 	public void testExceptionCase () {
-		Student student = new Student("mike", 20, 98, 95, 88);
+		Student student = new Student("mike", 0);
 		student.checkAge();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testExceptionCase1 () {
-		Student student = new Student("mike", 0, 98, 95, 88);
+		Student student = new Student("mike", 0);
 		student.checkAge();
 	}
 	
 	@Test
 	public void testExceptionCase2 () {
-		Student student = new Student("mike", 0, 98, 95, 88);
+		Student student = new Student("mike", 0);
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("age should be > 0");
 		student.checkAge();
@@ -115,7 +115,7 @@ public class StudentTest {
 	
 	@Test
 	public void testExceptionCase3 () {
-		Student student = new Student("mike", 0, 98, 95, 88);
+		Student student = new Student("mike", 0);
 		try {
 			student.checkAge();
 			fail("no excepted IllegalArgumentException for method checkAge");

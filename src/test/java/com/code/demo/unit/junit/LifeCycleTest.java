@@ -1,4 +1,4 @@
-package com.code.demo.junit;
+package com.code.demo.unit.junit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +18,7 @@ public class LifeCycleTest {
 	 */
 	public LifeCycleTest() {
 		super();
-		System.out.println("<<Person Constructor>>");
+		System.out.println("<<Junit Constructor Method>>");
 	}
 
 	@BeforeClass

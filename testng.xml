@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- suit根节点 -->
+<!-- <suite>可以包含一个<groups>元素，用以定义全局的组，该组对所有的测试可见。 <suite>可以包含多个<test>元素，一个<test>就定义了一个测试用例（其中可能包含多个测试方法）。 -->
+<suite name="suite1">
+	<test name="groupTest" verbose="10">
+		<groups>
+			<run>
+				<include name="functest"></include>
+				<exclude name="checkintest"></exclude>
+			</run>
+		</groups>
+		<packages>
+			<package name="com.code.demo.unit.testng"></package>
+		</packages>
+	</test>
+	<test name="classTest">
+		<classes>
+			<class name="com.code.demo.unit.testng.DataProviderTest"></class>
+		</classes>
+	</test>
+	<test name="paramTest">
+		<classes>
+			<class name="com.code.demo.unit.testng.ParamTest">
+				<parameter name="param0" value="hello"></parameter>
+				<parameter name="param1" value="world"></parameter>
+			</class>
+		</classes>
+	</test>
+	<test name="packageTest">
+		<packages>
+			<package name="com.code.demo.unit.testng.packages"></package>
+		</packages>
+	</test>
+</suite>
