@@ -38,11 +38,11 @@ public class QuickSort {
         int temp = arr[left];
 
         while (i != j) {
-            //往左移位，直到大于temp
+            //往左移位，直到小于temp
             while (i < j && arr[j] >= temp) {
                 j--;
             }
-            //往右移位，直到小于temp
+            //往右移位，直到大于temp
             while (i < j && arr[i] <= temp) {
                 i++;
             }
@@ -53,13 +53,13 @@ public class QuickSort {
                 arr[j] = tt;
             }
         }
-        System.out.println(Arrays.toString(arr));
 
         //交换基位数据
         int kk = arr[i];
         arr[i] = temp;
         arr[left] = kk;
 
+        System.out.println(Arrays.toString(arr));
         //下一次迭代
         quick_sort(arr, left, i - 1);//左半边
         quick_sort(arr, j + 1, right);//右半边
