@@ -14,22 +14,16 @@ public class InsertSort {
     public static void main(String[] args) {
         int[] arr = {6, 2, -5, 10, 104, 12, 92, 87};
         for (int i = 1; i < arr.length; i++) {
-            int temp = arr[i];
-            for (int j = i; j > 0; j--) {
-
+            int temp = arr[i];//待排组的第一个元素值
+            int j = i - 1;//有序组的最后一个元素下标
+            while (j >= 0 && temp < arr[j]) {
+                //若不是合适位置，有序元素向后移动
+                arr[j + 1] = arr[j];
+                j--;
             }
-
+            //找到合适位置，将元素插入
+            arr[j + 1] = temp;
+            System.out.println(Arrays.toString(arr));
         }
-//        int temp;
-//        for (int i = 1; i < arr.length; i++) {
-//            int j = i - 1;
-//            temp = arr[i];
-//            for (; j >= 0 && temp < arr[j]; j--) {
-//                //将大于temp的值整体后移一个单位
-//                arr[j + 1] = arr[j];
-//            }
-//            arr[j + 1] = temp;
-//        }
-        System.out.println(Arrays.toString(arr));
     }
 }

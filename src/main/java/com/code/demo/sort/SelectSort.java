@@ -15,7 +15,7 @@ public class SelectSort {
 
     public static void main(String[] args) {
         int[] arr = {6, 2, -5, 10, 104, 12, 92, 87};
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length - 1; i++) {
             for (int j = i + 1; j < arr.length; j++) {
                 int temp;
                 if (arr[j] < arr[i]) {
