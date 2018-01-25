@@ -5,16 +5,19 @@ import java.util.Arrays;
 /**
  * 堆排序
  *
- * 基本思想：
+ * 基本思想：堆排序是一种树形选择排序，是对直接选择排序的有效改进。
+ *
+ *          初始时把要排序的数的序列看作是一棵顺序存储的二叉树，调整它们的存储序，使之成为一个堆，这时堆的根节点的数最大。
+ *          然后将根节点与堆的最后一个节点交换。然后对前面(n-1)个数重新调整使之成为堆。
+ *          依此类推，直到只有两个节点的堆，并对它们作交换，最后得到有n个节点的有序序列。
+ *
+ *          从算法描述来看，堆排序需要两个过程，一是建立堆，二是堆顶与堆的最后一个元素交换位置。
+ *          所以堆排序有两个函数组成。一是建堆的渗透函数，二是反复调用渗透函数实现排序的函数。
  * @author yan.kefei
  * @date 2018/1/4 14:38
  */
 public class HeapSort {
     private static int a[] = {49, 22, 97, 76, 13, 27, 34, 12, 64, 5};
-
-    private HeapSort() {
-        this.heapSort(a);
-    }
 
     public static void main(String[] args) {
         HeapSort obj = new HeapSort();
@@ -22,7 +25,7 @@ public class HeapSort {
     }
 
     private void heapSort(int[] a) {
-        System.out.println("开始排序");
+        System.out.println("堆排序开始...");
         int arrayLength = a.length;
         //循环建堆
         for (int i = 0; i < arrayLength - 1; i++) {
@@ -33,7 +36,6 @@ public class HeapSort {
             System.out.println(Arrays.toString(a));
         }
     }
-
 
     private void swap(int[] data, int i, int j) {
         int tmp = data[i];
