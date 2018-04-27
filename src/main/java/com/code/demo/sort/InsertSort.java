@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class InsertSort {
     public static void main(String[] args) {
-        int[] arr = {6, 2, -5, 10, 104, 12, 92, 87};
+        int[] arr = {66, 22, 10, 104, 12, -5, 92, 87};
         for (int i = 1; i < arr.length; i++) {
             int temp = arr[i];//待排组的第一个元素值
             int j = i - 1;//有序组的最后一个元素下标
