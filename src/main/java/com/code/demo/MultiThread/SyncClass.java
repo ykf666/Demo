@@ -2,18 +2,19 @@ package com.code.demo.MultiThread;
 
 /**
  * @author yan.kefei
- * @date 2017/11/1 13:51
+ * @date 2018/5/16 16:31
  */
-public class SyncThread implements Runnable {
-    private static int count;
+public class SyncClass implements Runnable {
 
-    public SyncThread() {
+    private static Integer count;
+
+    public SyncClass() {
         count = 0;
     }
 
     @Override
     public void run() {
-        synchronized (this) {
+        synchronized (SyncClass.class) {
             for (int i = 0; i < 5; i++) {
                 try {
                     System.out.println(Thread.currentThread().getName() + ":" + (count++));
@@ -26,11 +27,8 @@ public class SyncThread implements Runnable {
     }
 
     public static void main(String[] args) {
-        SyncThread syncThread = new SyncThread();
-//        Thread thread1 = new Thread(syncThread, "SyncThread1");
-//        Thread thread2 = new Thread(syncThread, "SyncThread2");
-        Thread thread1 = new Thread(new SyncThread(), "SyncThread1");
-        Thread thread2 = new Thread(new SyncThread(), "SyncThread2");
+        Thread thread1 = new Thread(new SyncClass(), "thread-1");
+        Thread thread2 = new Thread(new SyncClass(), "thread-2");
         thread1.start();
         thread2.start();
     }

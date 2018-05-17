@@ -1,7 +1,5 @@
-package com.code.demo.simple;
+package com.code.demo.MultiThread;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AtomicIntegerDemo {
@@ -18,18 +16,12 @@ public class AtomicIntegerDemo {
     }
 
     public static void main(String[] args) {
-        ExecutorService threadpool = Executors.newFixedThreadPool(10);
-
         for (int k = 0; k < 10; k++) {
-            threadpool.submit(new AddThread());
+            new Thread(new AddThread()).start();
         }
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (Thread.activeCount() > 2) {
+            Thread.yield();
         }
-        System.out.println("result of acumulated sum =" + count);
-        threadpool.shutdown();
+        System.out.println(count);
     }
 }
