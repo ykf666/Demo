@@ -67,6 +67,12 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.22.Final</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.2.4</version>
+        </dependency>
     </dependencies>
 
     <build>
