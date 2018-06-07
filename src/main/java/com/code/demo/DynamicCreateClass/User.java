@@ -7,10 +7,11 @@ package com.code.demo.DynamicCreateClass;
 public class User {
 
     private String id;
+
     private String name;
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(String id) {

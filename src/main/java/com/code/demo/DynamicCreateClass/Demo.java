@@ -15,6 +15,7 @@ public class Demo {
             Class<?> clazz = compiler.loadClass("com.code.demo.DynamicCreateClass.UserProxy", results);
             // try instance:
             User user = (User) clazz.newInstance();
+            user.setName("hello");
             System.out.println(user.getName());
         } catch (IOException e) {
             e.printStackTrace();
@@ -30,17 +31,15 @@ public class Demo {
     static final String JAVA_SOURCE_CODE = "/* a single java source file */   "
             + "package com.code.demo.DynamicCreateClass;                      "
             + "public class UserProxy extends User {                          "
-            + "    boolean _dirty = false;                                    "
+            + "    private boolean _dirty = false;                            "
+            + "    @Override                                                  "
             + "    public void setId(String id) {                             "
             + "        super.setId(id);                                       "
             + "        setDirty(true);                                        "
             + "    }                                                          "
+            + "    @Override                                                  "
             + "    public void setName(String name) {                         "
             + "        super.setName(name);                                   "
-            + "        setDirty(true);                                        "
-            + "    }                                                          "
-            + "    public void setCreated(long created) {                     "
-            + "        super.setCreated(created);                             "
             + "        setDirty(true);                                        "
             + "    }                                                          "
             + "    public void setDirty(boolean dirty) {                      "
