@@ -1,4 +1,4 @@
-package com.code.demo.classLoader;
+package com.code.demo.CustomClassLoader;
 
 /**
  * @author yan.kefei

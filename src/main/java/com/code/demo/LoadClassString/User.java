@@ -1,4 +1,4 @@
-package com.code.demo.DynamicCreateClass;
+package com.code.demo.LoadClassString;
 
 /**
  * @author yan.kefei

@@ -1,4 +1,4 @@
-package com.code.demo.classLoader;
+package com.code.demo.CustomClassLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
