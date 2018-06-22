@@ -17,7 +17,7 @@ public class TestClassLoader {
 
         DiskClassLoader diskClassLoader = new DiskClassLoader("D:\\IdeaProjects\\testClassLoader");
         try {
-            Class c = diskClassLoader.loadClass("com.code.demo.classLoader.Hello");
+            Class c = diskClassLoader.loadClass("com.code.demo.CustomClassLoader.Hello");
             if (c != null) {
                 Object obj = c.newInstance();
                 Method method = c.getDeclaredMethod("say", null);

@@ -12,7 +12,7 @@ public class Demo {
         try {
             JavaStringCompiler compiler = new JavaStringCompiler();
             Map<String, byte[]> results = compiler.compile("UserProxy.java", JAVA_SOURCE_CODE);
-            Class<?> clazz = compiler.loadClass("com.code.demo.DynamicCreateClass.UserProxy", results);
+            Class<?> clazz = compiler.loadClass("com.code.demo.LoadClassString.UserProxy", results);
             // try instance:
             User user = (User) clazz.newInstance();
             user.setName("hello");
@@ -29,7 +29,7 @@ public class Demo {
     }
 
     static final String JAVA_SOURCE_CODE = "/* a single java source file */   "
-            + "package com.code.demo.DynamicCreateClass;                      "
+            + "package com.code.demo.LoadClassString;                      "
             + "public class UserProxy extends User {                          "
             + "    private boolean _dirty = false;                            "
             + "    @Override                                                  "
