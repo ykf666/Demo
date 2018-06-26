@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="consumer" owner="programmer" organization="dubbox"/>
+
+    <!--向 zookeeper 订阅 provider 的地址，由 zookeeper 定时推送 -->
+    <dubbo:registry group="myDubbo" protocol="zookeeper" address="10.60.1.246:2181,10.60.1.248:2181,10.60.1.249:2181"/>
+
+    <!--向 redis 订阅 provider 的地址，由 redis 定时推送-->
+    <!--<dubbo:registry group="mygroup" address="redis://10.201.16.61:6379"/>-->
+
+    <!-- 通过注册中心发现监控中心服务器 -->
+    <!-- <dubbo:monitor protocol="registry" />-->
+
+    <dubbo:protocol host="10.60.1.177"/>
+
+    <!--使用dubbo协议调用定义好的接口,如果有多个实现，则指定group，如果服务提供者没有设置group，则轮流调用实现 -->
+    <dubbo:reference id="demoService" interface="com.code.demo.Dubbo.DemoService" group="demoA"/>
+</beans>
