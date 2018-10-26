@@ -17,7 +17,7 @@ public class ServerBio {
             System.out.println("端口号" + serverSocket.getLocalPort()+", 等待连接...");
             while (true) {
                 Socket socket = serverSocket.accept();
-                new Thread(new ServerHandler(socket), "thread-" + clientNo).start();
+                new Thread(new ServerBIOHandler(socket), "thread-" + clientNo).start();
                 clientNo++;
             }
         } catch (IOException e) {

@@ -9,11 +9,11 @@ import java.net.Socket;
  * @author yan.kefei
  * @date 2018/5/15 15:30
  */
-public class ServerHandler implements Runnable {
+public class ServerBIOHandler implements Runnable {
 
     private Socket socket;
 
-    public ServerHandler(Socket socket) {
+    public ServerBIOHandler(Socket socket) {
         this.socket = socket;
     }
 

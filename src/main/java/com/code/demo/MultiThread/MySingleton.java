@@ -14,9 +14,8 @@ public class MySingleton {
 
     public static MySingleton getInstance() {
         try {
-            if (instance != null) {//懒汉式
-
-            } else {
+            //懒汉式
+            if (instance == null) {
                 //创建实例之前可能会有一些准备性的耗时工作
                 Thread.sleep(200);
                 synchronized (MySingleton.class) {
