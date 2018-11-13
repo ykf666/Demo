@@ -5,39 +5,40 @@ package com.code.demo.MultiThread;
  */
 public class AtomicIntegerLockDemo {
 
-    private static AtomicIntegerLock lock = new AtomicIntegerLock();
+    private final static AtomicIntegerLock lock = new AtomicIntegerLock();
     private int count = 0;
 
     private void add() {
+        lock.lock();
         this.count += 1;
+        lock.unlock();
     }
 
     public void twoThreadAdd() throws InterruptedException {
         Thread thread1 = new Thread("thread1") {
             @Override
             public void run() {
-                lock.lock();
+                System.out.println("thread1 running...");
                 for (int i = 0; i < 5000; i++) {
                     add();
                 }
-                lock.unlock();
             }
         };
 
         Thread thread2 = new Thread("thread2") {
             @Override
             public void run() {
-                lock.lock();
+                System.out.println("thread2 running...");
                 for (int i = 0; i < 5000; i++) {
                     add();
                 }
-                lock.unlock();
             }
         };
 
         thread1.start();
         thread2.start();
 
+        //顺序执行两个线程
         thread1.join();
         thread2.join();
 

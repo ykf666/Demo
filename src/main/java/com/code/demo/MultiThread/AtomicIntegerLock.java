@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by yankefei on 2018/11/12.
  * <p>
- * 利用AtomicInteger实现自旋锁，是一种乐观锁\
+ * 利用AtomicInteger实现自旋锁，是一种乐观锁
  * 如果lock为1，则表示锁被占用
  */
 public class AtomicIntegerLock {
