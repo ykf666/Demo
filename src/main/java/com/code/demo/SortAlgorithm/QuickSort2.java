@@ -1,4 +1,4 @@
-package com.code.demo.sort;
+package com.code.demo.SortAlgorithm;
 
 import java.util.Arrays;
 
@@ -16,12 +16,12 @@ import java.util.Arrays;
  * 3、此时，数组被划分为两个子数组，则递归子数组排序
  *
  * @author yan.kefei
- * @date 2017年9月14日 下午10:45:02
+ * @date 2017年9月28日 下午10:31:02
  */
-public class QuickSort {
+public class QuickSort2 {
 
     public static void main(String[] args) {
-        int[] arr = {6, 2, -5, 10, 104, 12, 92, 87};
+        int[] arr = {66, 25, 33, 10, 104, 12, 92, 87};
         quick_sort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));
     }
@@ -36,30 +36,27 @@ public class QuickSort {
 
         //设置基准值，将最左端元素作为基准值
         int base = arr[left];
-
-        while (low != high) {
+        while (low < high) {
             //往左移位，直到小于base
-            while (low < high && arr[high] >= base) {
+            while (low < high && arr[high] > base) {
                 high--;
             }
 
+            if (low < high) {
+                arr[low] = arr[high];
+                low++;
+            }
+
             //往右移位，直到大于base
-            while (low < high && arr[low] <= base) {
+            while (low < high && arr[low] < base) {
                 low++;
             }
 
             if (low < high) {
-                //交换彼此的数据
-                int tt = arr[low];
-                arr[low] = arr[high];
-                arr[high] = tt;
+                arr[high] = arr[low];
             }
         }
-
-        //交换基位数据
-        int kk = arr[low];
-        arr[low] =  base;
-        arr[left] = kk;
+        arr[low] = base;
 
         System.out.println(Arrays.toString(arr));
         //下一次迭代
