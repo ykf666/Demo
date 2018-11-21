@@ -36,6 +36,7 @@ public class CompareMain {
 
         System.out.println();
         System.out.println("外比较器排序前：" + StringUtils.join(list2, " ,"));
+
         //外比较器，lambda写法
         list2.sort((final Person2 o1, final Person2 o2) -> o1.getAge() - o2.getAge());
         System.out.println("外比较器（正）排序后：" + StringUtils.join(list2, " ,"));
@@ -44,6 +45,15 @@ public class CompareMain {
         Comparator<Person2> comparator = (final Person2 o1, final Person2 o2) -> o1.getAge() - o2.getAge();
         list2.sort(comparator.reversed());
         System.out.println("外比较器（反）排序后：" + StringUtils.join(list2, " ,"));
+
+        //外比较器，一般写法
+        list2.sort(new Comparator<Person2>() {
+            @Override
+            public int compare(Person2 o1, Person2 o2) {
+                return o1.getAge() - o2.getAge();
+            }
+        });
+        System.out.println("外比较器（正）排序后：" + StringUtils.join(list2, " ,"));
     }
 
 }

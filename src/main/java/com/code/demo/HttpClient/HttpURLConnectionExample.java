@@ -1,4 +1,4 @@
-package com.code.demo.http;
+package com.code.demo.HttpClient;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;

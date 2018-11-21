@@ -27,11 +27,11 @@ public class SyncObject implements Runnable {
     }
 
     public static void main(String[] args) {
-        SyncObject syncThread = new SyncObject();
-        Thread thread1 = new Thread(syncThread, "thread-1");
-        Thread thread2 = new Thread(syncThread, "thread-2");
-//        Thread thread1 = new Thread(new SyncObject(), "thread-1");
-//        Thread thread2 = new Thread(new SyncObject(), "thread-2");
+//        SyncObject syncThread = new SyncObject();
+//        Thread thread1 = new Thread(syncThread, "thread-1");
+//        Thread thread2 = new Thread(syncThread, "thread-2");
+        Thread thread1 = new Thread(new SyncObject(), "thread-1");
+        Thread thread2 = new Thread(new SyncObject(), "thread-2");
         thread1.start();
         thread2.start();
     }
