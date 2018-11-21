@@ -15,7 +15,7 @@ public class ReflectDemo {
          * 2、Class clazz = obj.getClass;
          * 3、Class clazz = MyClass.class;
          */
-        Class clazz = Class.forName("com.code.demo.Java_Reflect.MyClass");
+        Class clazz = Class.forName("com.code.demo.Reflect.MyClass");
         Object[] params = {"公有变量初始值", "私有变量初始值"};
 
         // 通过反射拿到类名
