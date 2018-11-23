@@ -6,10 +6,12 @@ package com.code.demo.MultiThread;
  */
 public class VolatileDemo {
 
-    private volatile int count = 0;
+    private static volatile int count = 0;
 
     private void add() {
-        count++;
+        synchronized (this) {
+            count++;
+        }
     }
 
     public static void main(String[] args) {
@@ -18,10 +20,8 @@ public class VolatileDemo {
             new Thread() {
                 @Override
                 public void run() {
-                    synchronized (VolatileDemo.class) {
-                        for (int j = 0; j < 1000; j++) {
-                            demo.add();
-                        }
+                    for (int j = 0; j < 1000; j++) {
+                        demo.add();
                     }
                 }
             }.start();
@@ -31,7 +31,7 @@ public class VolatileDemo {
         while (Thread.activeCount() > 2) {
             Thread.yield();
         }
-        System.out.println(demo.count);
+        System.out.println(count);
     }
 
 }
