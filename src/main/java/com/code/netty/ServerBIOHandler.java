@@ -1,4 +1,4 @@
-package com.code.demo.Netty;
+package com.code.netty;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

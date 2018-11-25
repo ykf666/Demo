@@ -1,4 +1,4 @@
-package com.code.demo.Netty;
+package com.code.netty;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -14,7 +14,7 @@ public class ServerBio {
         int clientNo = 0;
         try {
             ServerSocket serverSocket = new ServerSocket(8080);
-            System.out.println("端口号" + serverSocket.getLocalPort()+", 等待连接...");
+            System.out.println("服务器端口号：" + serverSocket.getLocalPort()+", 等待连接...");
             while (true) {
                 Socket socket = serverSocket.accept();
                 new Thread(new ServerBIOHandler(socket), "thread-" + clientNo).start();
