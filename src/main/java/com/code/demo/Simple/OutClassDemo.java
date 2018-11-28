@@ -2,7 +2,7 @@ package com.code.demo.Simple;
 
 /**
  * 内部类测试
- * 
+ * 内部类其实持有外部类的this引用
  * @author yankefei
  *
  */
@@ -45,14 +45,26 @@ public class OutClassDemo {
 	}
 
 	// 方法内部类
+	// 这种内部类，如果需要使用方法内的局部变量，这个变量必须是final的，jdk8省去了final的显示，但默认还是final的
+	// 这个内部类的默认构造方法，实际是传入两个this引用，一个是OutClassDemo的，一个是In的
 	public void out_print2(final int x) {
+		int y = 10;
 		class In {
 			public void inPrint() {
+				System.out.println("y--" + y);
 				System.out.println("demo5--" + x);
 				System.out.println("demo5--" + age);
 			}
 		}
+
+		class In5 extends In {
+			@Override
+			public void inPrint() {
+				System.out.println("demo6--" + y);
+			}
+		}
 		new In().inPrint();
+		new In5().inPrint();
 	}
 
 	public static void main(String[] args) {

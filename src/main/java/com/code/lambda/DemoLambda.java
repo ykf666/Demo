@@ -1,4 +1,4 @@
-package com.code.demo.Lambda;
+package com.code.lambda;
 
 import java.util.*;
 import java.util.function.Predicate;

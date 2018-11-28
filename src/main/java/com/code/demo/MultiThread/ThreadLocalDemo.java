@@ -2,9 +2,16 @@ package com.code.demo.MultiThread;
 
 public class ThreadLocalDemo {
 
-    private ThreadLocal<Long> localLong = new ThreadLocal<Long>();
+    private ThreadLocal<Long> localLong = new ThreadLocal<Long>(){
+        //ThreadLocal的初始化方法默认返回null，所以如果想要get某个值，需先set
+        //或者可以重写initialValue方法
+        @Override
+        protected Long initialValue() {
+            return Thread.currentThread().getId();
+        }
+    };
 
-    private ThreadLocal<String> localString = new ThreadLocal<String>();
+    private ThreadLocal<String> localString = new ThreadLocal<>();
 
     public void set(){
         localLong.set(Thread.currentThread().getId());
