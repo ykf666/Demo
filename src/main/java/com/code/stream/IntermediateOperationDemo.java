@@ -1,5 +1,6 @@
 package com.code.stream;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -17,9 +18,12 @@ public class IntermediateOperationDemo {
         //把每个单词长度打印
         Stream.of(str.split(" ")).filter(s -> s.length() > 2).map(s -> s.length()).forEach(System.out::println);
 
+        System.out.println("---------------flatMap-------------");
         //flatMap A->B属性（是个集合，最终得到所有A元素里面的所有B属性集合）
         //intStream/longStream并不是Stream的子类，所以要进行装箱操作boxed
         Stream.of(str.split(" ")).flatMap(s -> s.chars().boxed()).forEach(integer -> System.out.println((char) integer.intValue()));
+        //个人理解，flatMap是一个抹平操作，如果流中有多个流元素，可以用flatMap合并为一个流
+        Stream.of(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6)).flatMap(arr -> arr.stream()).forEach(System.out::println);
 
         //peek用于debug，是个中间操作，而forEach是终止操作
         System.out.println("---------------peek-------------");
@@ -34,9 +38,9 @@ public class IntermediateOperationDemo {
         Stream.of(1, 2, 3, 4, 5).unordered().forEach(System.out::println);
 
         System.out.println("---------------distinct-------------");
-        IntStream.of(2,12,67,44,2,12).distinct().forEach(System.out::println);
+        IntStream.of(2, 12, 67, 44, 2, 12).distinct().forEach(System.out::println);
 
         System.out.println("---------------sorted-------------");
-        IntStream.of(2,67,44,12).sorted().forEach(System.out::println);
+        IntStream.of(2, 67, 44, 12).sorted().forEach(System.out::println);
     }
 }
