@@ -14,7 +14,7 @@ public class Demo2 {
         enhancer.setSuperclass(TargetImpl.class);
         enhancer.setCallback(cglibProxy);
 
-        Target o = (Target) enhancer.create();
+        TargetImpl o = (TargetImpl) enhancer.create();
         o.execute();
     }
 }
