@@ -12,13 +12,13 @@ public class FutureDemo {
 
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newCachedThreadPool();
-        Task task1 = new Task(3);
-        Task task2 = new Task(5);
         //Future和FutureTask的区别
         //Futrue是只能结合ExecutorService线程池使用，new Thread是不支持Future构造的
         List<Future<Integer>> futures = new ArrayList<>();
-        futures.add(executorService.submit(task1));
-        futures.add(executorService.submit(task2));
+        for (int i=1;i<=5;i++){
+            Task task = new Task(5);
+            futures.add(executorService.submit(task));
+        }
 
         //如果有多个任务提交执行，返回结果也将按照提交顺序获得
         List<Integer> results = new ArrayList<>();
@@ -32,22 +32,24 @@ public class FutureDemo {
             }*/
 
             //方式二：轮询结果
-            while (iterator.hasNext()) {
-                Future<Integer> future = (Future<Integer>) iterator.next();
-                if (future.isDone() && !future.isCancelled()) {
-                    int result = future.get();
-                    results.add(result);
-                    System.out.println("轮询结果计算完成，get...");
-                    iterator.remove();
-                } else {
-                    Thread.sleep(1000);
-                    System.out.println("未得到结果，等待...");
+            for (Future<Integer> future : futures) {
+                while (true) {
+                    if (future.isDone() && !future.isCancelled()) {
+                        int result = future.get();
+                        results.add(result);
+                        break;
+                    } else {
+                        Thread.sleep(500);
+                        System.out.println("未得到结果，等待...");
+                    }
                 }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        }finally {
+            executorService.shutdown();
         }
         System.out.println("运行结果：" + results);
     }

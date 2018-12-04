@@ -8,6 +8,8 @@ import java.util.concurrent.FutureTask;
  * <p>
  * futureTask弥补了future只能用线程池提交的不足，可以使用Thread提交
  * get阻塞获取结果前，可以穿插其他业务逻辑
+ *
+ * 使用状态机和Unsafe.cas实现
  */
 public class FutureTaskDemo {
 
