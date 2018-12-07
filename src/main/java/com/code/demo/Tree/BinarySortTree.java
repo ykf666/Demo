@@ -67,9 +67,9 @@ public class BinarySortTree<E extends Comparable<E>> {
     //后序遍历（递归）
     public void postOrderTraverse(Node<E> node) {
         if (node.left != null)
-            preOrderTraverse(node.left);
+            postOrderTraverse(node.left);
         if (node.right != null)
-            preOrderTraverse(node.right);
+            postOrderTraverse(node.right);
         System.out.print(node.value + " ");
     }
 
