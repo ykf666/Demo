@@ -23,7 +23,6 @@ public class QuickSort2 {
     public static void main(String[] args) {
         int[] arr = {66, 25, 33, 10, 104, 12, 92, 87};
         quick_sort(arr, 0, arr.length - 1);
-        System.out.println(Arrays.toString(arr));
     }
 
     private static void quick_sort(int[] arr, int left, int right) {

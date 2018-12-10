@@ -19,26 +19,23 @@ public class HillSort {
 
     public static void main(String[] args) {
         int[] arr = {6, 2, -5, 10, 104, 12, 92, 87};
-        int len = arr.length;
-        int temp;
-        int d = len;
 
-        while (d > 1) {
-            d = d / 2;
-            for (int i = d; i < len; i++) {
-                int key = arr[i];
-                int j = i - d;
-                while (j >= 0) {
-                    if (key < arr[j]) {
-                        temp = arr[j];
-                        arr[j] = key;
-                        arr[i] = temp;
-                    }
-                    j = j - d;
+        //间隔大小
+        int increment = arr.length;
+        while (increment > 1) {
+            increment = increment / 3 + 1;
+            for (int i = increment; i < arr.length; i += increment) {
+                //插入排序
+                int temp = arr[i];   //待排序第一个数
+                int j = i - increment;  //已排序数组的最后一个元素位置
+                while (j >= 0 && temp < arr[j]) {
+                    arr[i] = arr[j];
+                    j -= increment;
                 }
+                arr[j + increment] = temp;
             }
+            System.out.println(Arrays.toString(arr));
         }
-        System.out.println(Arrays.toString(arr));
     }
 
 }
