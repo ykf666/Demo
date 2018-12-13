@@ -1,7 +1,6 @@
 package com.code.demo.Simple;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yan.kefei
@@ -10,6 +9,7 @@ import java.util.List;
 public class ListDemo {
 
     public static void main(String[] args) {
+        new LinkedList<>();
         List<String> alist = new ArrayList<>();
         alist.add("A");
         alist.add("B");
@@ -18,6 +18,21 @@ public class ListDemo {
         blist.add("B");
         blist.add("C");
         blist.add("D");
+
+        Set<Integer> set1 = new HashSet<>();
+        set1.add(1);
+        set1.add(2);
+        set1.add(3);
+
+        Set<Integer> set2 = new HashSet<>();
+        set2.add(2);
+        set2.add(3);
+        set2.add(4);
+//        for (Iterator<Integer> i = set2.iterator();i.hasNext();){
+//            set1.remove(i.next());
+//        }
+        set1.removeAll(set2);
+        System.out.println(set1);
 
         // 交集
 //        alist.retainAll(blist);
@@ -29,13 +44,13 @@ public class ListDemo {
 
         // 无重复并集
 
-        blist.removeAll(alist);
+/*        blist.removeAll(alist);
         alist.addAll(blist);
-        System.out.println(alist);
+        System.out.println(alist);*/
 
         // 差集
-//        alist.removeAll(blist);
-//        printList(alist);
+        alist.removeAll(blist);
+        System.out.println(alist);
     }
 
 }
