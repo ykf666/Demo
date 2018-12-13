@@ -12,11 +12,15 @@ public class TopKFrequent {
     final static Integer[] arr = {1, 1, 1, 3, 2, 5, 2, 2, 2, 5};
 
     public static void main(String[] args) {
+        TopKFrequent obj = new TopKFrequent();
         //方法一：排序实现
-        mySort(arr, 2);
+        obj.mySort(arr, 2);
+        System.out.println();
+        //方法二：使用优先队列
+        obj.heapSort(arr, 2);
     }
 
-    private static void mySort(Integer[] arr, int k) {
+    private void mySort(Integer[] arr, int k) {
         Map<Integer, Integer> map = new HashMap();
         for (int i = 0; i < arr.length; i++) {
             map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
@@ -33,9 +37,45 @@ public class TopKFrequent {
         int count = 0;
         for (Map.Entry<Integer, Integer> entry : list) {
             if (count < k) {
-                System.out.println(entry.getKey());
+                System.out.print(entry.getKey() + " ");
                 count++;
             }
+        }
+    }
+
+    private void heapSort(Integer[] arr, int k) {
+        Map<Integer, Integer> map = new HashMap();
+        for (int i = 0; i < arr.length; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        }
+
+        PriorityQueue<Freq> queue = new PriorityQueue<>();
+        for (int key : map.keySet()) {
+            queue.add(new Freq(key, map.get(key)));
+        }
+
+        LinkedList<Integer> list = new LinkedList<>();
+        for (Freq freq : queue) {
+            if (list.size() < k) {
+                list.add(freq.e);
+            }
+        }
+        System.out.println(list);
+    }
+
+    private class Freq implements Comparable<Freq> {
+        public int e, freq;
+
+        public Freq(int e, int freq) {
+            this.e = e;
+            this.freq = freq;
+        }
+
+        @Override
+        public int compareTo(Freq another) {
+            if (this.freq < another.freq) return 1;
+            else if (this.freq > another.freq) return -1;
+            else return 0;
         }
     }
 
