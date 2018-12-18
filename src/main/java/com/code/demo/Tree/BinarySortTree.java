@@ -145,4 +145,20 @@ public class BinarySortTree<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * 树结点
+     */
+    public class Node<E extends Comparable<E>> {
+
+        E value;
+        Node<E> left;
+        Node<E> right;
+
+        public Node(E value) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+        }
+    }
+
 }
