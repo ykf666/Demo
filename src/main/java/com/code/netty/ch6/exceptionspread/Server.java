@@ -1,6 +1,5 @@
 package com.code.netty.ch6.exceptionspread;
 
-import com.sun.corba.se.impl.presentation.rmi.ExceptionHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
