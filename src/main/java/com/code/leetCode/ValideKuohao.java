@@ -1,4 +1,4 @@
-package com.code.leet;
+package com.code.leetCode;
 
 import java.util.Stack;
 
@@ -7,7 +7,7 @@ import java.util.Stack;
  * <p>
  * 有效的括号
  */
-public class Solution {
+public class ValideKuohao {
 
     public static boolean isValide(String s) {
         Stack<Character> stack = new Stack<>();

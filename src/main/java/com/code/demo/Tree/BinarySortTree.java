@@ -148,7 +148,7 @@ public class BinarySortTree<E extends Comparable<E>> {
     /**
      * 树结点
      */
-    private class Node<E extends Comparable<E>> {
+    public class Node<E extends Comparable<E>> {
 
         E value;
         Node<E> left;
