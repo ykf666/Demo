@@ -1,9 +1,13 @@
-package com.code.fatherChild;
+package com.code.demo.FatherChild;
 
 /**
  * Created by yankefei on 2020/2/8.
  */
 public class Father {
+
+    static {
+        System.out.println("Father static code block...");
+    }
 
     public Father() {
         System.out.println("Father init");

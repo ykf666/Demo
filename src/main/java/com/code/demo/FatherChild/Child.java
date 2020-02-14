@@ -1,4 +1,4 @@
-package com.code.fatherChild;
+package com.code.demo.FatherChild;
 
 /**
  * Created by yankefei on 2020/2/10.
@@ -6,6 +6,10 @@ package com.code.fatherChild;
 public class Child extends Father {
 
     private int var_private = 20;
+
+    static {
+        System.out.println("Child static code block...");
+    }
 
     public Child() {
         System.out.println("Child init");
@@ -22,5 +26,7 @@ public class Child extends Father {
         child.var_public = 30;
         child.print();
         child.print_private();
+        child.print_protected();
+        child.print_public();
     }
 }
