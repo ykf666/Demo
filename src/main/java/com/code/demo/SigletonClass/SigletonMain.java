@@ -1,4 +1,4 @@
-package com.code.demo.Simple;
+package com.code.demo.SigletonClass;
 
 import java.util.concurrent.TimeUnit;
 
@@ -8,10 +8,15 @@ import java.util.concurrent.TimeUnit;
 public class SigletonMain {
 
     private static class ClassA extends Thread {
+
+        public ClassA(String name) {
+            super(name);
+        }
+
         @Override
         public void run() {
-            while (true){
-                System.out.println(SigletonClass.getInstance());
+            while (true) {
+                System.out.println("Thread-" + this.getName() + " " + SigletonClass.getInstance());
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -23,7 +28,7 @@ public class SigletonMain {
 
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
-            ClassA ca = new ClassA();
+            ClassA ca = new ClassA(String.valueOf(i));
             ca.start();
         }
     }

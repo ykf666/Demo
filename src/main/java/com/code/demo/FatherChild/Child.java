@@ -8,15 +8,15 @@ public class Child extends Father {
     private int var_private = 20;
 
     static {
-        System.out.println("Child static code block...");
+        System.out.println("字类静态代码块");
     }
 
     public Child() {
-        System.out.println("Child init");
+        System.out.println("子类构造方法");
     }
 
     private void print_private() {
-        System.out.println("this is child private print: {var_private=" + this.var_private + ", var_public=" + var_public +
+        System.out.println("字类私有方法: {var_private=" + this.var_private + ", var_public=" + var_public +
                 ", var_friend=" + var_friend + ", var_protected=" + var_protected);
     }
 

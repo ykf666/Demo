@@ -1,4 +1,4 @@
-package com.code.demo.Simple;
+package com.code.demo.SigletonClass;
 
 /**
  * Created by yankefei on 2020/2/14.
