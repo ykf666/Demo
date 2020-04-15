@@ -2,6 +2,7 @@ package com.code.demo.Tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Created by yankefei on 2018/12/6.
@@ -25,7 +26,6 @@ public class BinarySortTree<E extends Comparable<E>> {
             root = new Node<>(value);
             return;
         }
-
         Node<E> currentNode = root;
         while (true) {
             if (value.compareTo(currentNode.value) > 0) {
@@ -89,10 +89,10 @@ public class BinarySortTree<E extends Comparable<E>> {
     }
 
     //先序遍历（非递归）
-    public void preOrderTraverse2(Node<E> root) {
-        LinkedList<Node<E>> stack = new LinkedList<>();
+    public void preOrderTraverse2() {
+        Stack<Node<E>> stack = new Stack<>();
         Node<E> currentNode = null;
-        stack.push(root);
+        stack.push(this.root);
         while (!stack.isEmpty()) {
             currentNode = stack.pop();
             System.out.print(currentNode.value + " ");
@@ -104,9 +104,9 @@ public class BinarySortTree<E extends Comparable<E>> {
     }
 
     //中序遍历（非递归）
-    public void inOrderTraverse2(Node<E> root) {
-        LinkedList<Node<E>> stack = new LinkedList<>();
-        Node<E> currentNode = root;
+    public void inOrderTraverse2() {
+        Stack<Node<E>> stack = new Stack<>();
+        Node<E> currentNode = this.root;
         while (currentNode != null || !stack.isEmpty()) {
             // 一直循环到二叉排序树最左端的叶子结点（currentNode是null）
             while (currentNode != null) {
@@ -120,9 +120,9 @@ public class BinarySortTree<E extends Comparable<E>> {
     }
 
     //后序遍历（非递归）
-    public void postOrderTraverse2(Node<E> root) {
-        LinkedList<Node<E>> stack = new LinkedList<>();
-        Node<E> currentNode = root;
+    public void postOrderTraverse2() {
+        Stack<Node<E>> stack = new Stack<>();
+        Node<E> currentNode = this.root;
         Node<E> rightNode = null;
         while (currentNode != null || !stack.isEmpty()) {
             // 一直循环到二叉排序树最左端的叶子结点（currentNode是null）
@@ -145,11 +145,21 @@ public class BinarySortTree<E extends Comparable<E>> {
         }
     }
 
+    public Node<E> findLastCommonParent(Node<E> n1, Node<E> n2, Node<E> currentNode) {
+        Integer currentVal = (Integer) currentNode.value;
+        if ((((Integer) n1.value) < currentVal) && (((Integer) n2.value) < currentVal)) {
+            currentNode = findLastCommonParent(n1, n2, currentNode.left);
+        }
+        if ((((Integer) n1.value) > currentVal) && (((Integer) n2.value) > currentVal)) {
+            currentNode = findLastCommonParent(n1, n2, currentNode.right);
+        }
+        return currentNode;
+    }
+
     /**
      * 树结点
      */
-    public class Node<E extends Comparable<E>> {
-
+    public static class Node<E extends Comparable<E>> {
         E value;
         Node<E> left;
         Node<E> right;
@@ -159,6 +169,8 @@ public class BinarySortTree<E extends Comparable<E>> {
             this.left = null;
             this.right = null;
         }
+
+
     }
 
 }

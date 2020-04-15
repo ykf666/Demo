@@ -21,36 +21,34 @@ public class BinaryTreeDemo {
 
         System.out.print("先序遍历（递归）：");
         tree.preOrderTraverse(tree.getRoot());
-
         System.out.println();
 
         System.out.print("中序遍历（递归）：");
         tree.inOrderTraverse(tree.getRoot());
-
         System.out.println();
 
         System.out.print("后序遍历（递归）：");
         tree.postOrderTraverse(tree.getRoot());
-
         System.out.println();
 
         System.out.print("广度优先遍历：");
         tree.breadthFirstTraverse(tree.getRoot());
-
         System.out.println();
 
         System.out.print("先序遍历（非递归）：");
-        tree.preOrderTraverse2(tree.getRoot());
-
+        tree.preOrderTraverse2();
         System.out.println();
 
         System.out.print("中序遍历（非递归）：");
-        tree.inOrderTraverse2(tree.getRoot());
-
+        tree.inOrderTraverse2();
         System.out.println();
 
         System.out.print("后序遍历（非递归）：");
-        tree.postOrderTraverse2(tree.getRoot());
+        tree.postOrderTraverse2();
+        System.out.println();
+
+        BinarySortTree.Node cla = tree.findLastCommonParent(new BinarySortTree.Node<>(45), new BinarySortTree.Node<>(50), tree.getRoot());
+        System.out.println("最低公共父亲：" + cla.value);
     }
 
 }
