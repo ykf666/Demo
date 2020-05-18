@@ -1,4 +1,4 @@
-package com.code.demo.Tree;
+package com.code.dataStructure.Tree;
 
 /**
  * Created by yankefei on 2018/12/6.

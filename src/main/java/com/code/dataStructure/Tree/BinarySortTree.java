@@ -1,4 +1,4 @@
-package com.code.demo.Tree;
+package com.code.dataStructure.Tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,26 +17,30 @@ public class BinarySortTree<E extends Comparable<E>> {
         this.root = null;
     }
 
+    public BinarySortTree(Node root) {
+        this.root = root;
+    }
+
     public Node<E> getRoot() {
         return root;
     }
 
     public void insertNode(E value) {
         if (root == null) {
-            root = new Node<>(value);
+            root = new Node<>(value, null);
             return;
         }
         Node<E> currentNode = root;
         while (true) {
             if (value.compareTo(currentNode.value) > 0) {
                 if (currentNode.right == null) {
-                    currentNode.right = new Node<>(value);
+                    currentNode.right = new Node<>(value, currentNode);
                     break;
                 }
                 currentNode = currentNode.right;
             } else {
                 if (currentNode.left == null) {
-                    currentNode.left = new Node<>(value);
+                    currentNode.left = new Node<>(value, currentNode);
                     break;
                 }
                 currentNode = currentNode.left;
@@ -156,21 +160,60 @@ public class BinarySortTree<E extends Comparable<E>> {
         return currentNode;
     }
 
+    //找到中序遍历中下一个节点值
+    public static Node findInOrderNextNode(Node node) {
+        if (node == null) {
+            return null;
+        }
+        Node next = null;
+        if (node.right != null) {
+            Node rightNode = node.right;
+            while (rightNode.left != null) {
+                rightNode = rightNode.left;
+            }
+            next = rightNode;
+        } else if (node.left != null) {
+
+        }
+        return null;
+    }
+
     /**
      * 树结点
      */
     public static class Node<E extends Comparable<E>> {
         E value;
-        Node<E> left;
-        Node<E> right;
+        public Node<E> left;
+        public Node<E> right;
+        Node<E> parent;
 
         public Node(E value) {
             this.value = value;
             this.left = null;
             this.right = null;
+            this.parent = null;
         }
 
+        public Node(E value, Node parent) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+            this.parent = parent;
+        }
 
+        public String getValue() {
+            return this.value.toString();
+        }
+
+        @Override
+        public String toString() {
+            return "Node={" +
+                    "value=" + value +
+                    ", left=" + (left == null ? "" : left.value) +
+                    ", right=" + (right == null ? "" : right.value) +
+                    ", parent=" + (parent == null ? "" : parent.value) +
+                    '}';
+        }
     }
 
 }
