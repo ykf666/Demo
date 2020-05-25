@@ -20,8 +20,10 @@ public class MaxSumSubArray {
         subSequenceMaxSum_2(arr);
         System.out.println("****************动态规划****************");
         subSequenceMaxSum_3(arr);
+        System.out.println("****************动态规划（优化）****************");
+        subSequenceMaxSum_4(arr);
         System.out.println("****************分治法****************");
-        int max = subSequenceMaxSum_4(arr);
+        int max = subSequenceMaxSum_5(arr);
         System.out.println("最大子序列和：" + max);
         System.out.println("递归调用次数为：" + recursionCount);
     }
@@ -55,7 +57,7 @@ public class MaxSumSubArray {
             subArray[m] = array[start + m];
         }
         System.out.println("最大子序列为：" + Arrays.toString(subArray));
-        System.out.println("循环次数为：" + count);
+        System.out.println("循环次数：" + count);
     }
 
     //穷举法优化，时间复杂度为O(n^2)
@@ -74,16 +76,37 @@ public class MaxSumSubArray {
             }
         }
         System.out.println("最大子序列和：" + maxSum);
-        System.out.println("循环次数为：" + count);
+        System.out.println("循环次数：" + count);
     }
 
     //动态规划，时间复杂度为O(n)
     private static void subSequenceMaxSum_3(int[] array) {
-        int sum = 0;
-        int maxSum = array[0];
         int count = 0;
-        for (int i = 0; i < array.length; i++) {
-            sum += array[i];
+        int[] b = new int[array.length];
+        b[0] = array[0];
+        for (int i = 0; i < array.length - 1; i++) {
+            b[i + 1] = b[i] + array[i + 1] > array[i + 1] ? b[i] + array[i + 1] : array[i + 1];
+            count++;
+        }
+        //找出b数组中的最大值
+        int sum = b[0];
+        for (int j = 0; j < b.length; j++) {
+            count++;
+            if (b[j] > sum) {
+                sum = b[j];
+            }
+        }
+        System.out.println("最大子序列和：" + sum);
+        System.out.println("循环次数：" + count);
+    }
+
+    //动态规划（优化）
+    private static void subSequenceMaxSum_4(int[] array) {
+        int maxSum = array[0];
+        int sum = maxSum;
+        int count = 0;
+        for (int i = 1; i < array.length; i++) {
+            sum = sum + array[i] > array[i] ? sum + array[i] : array[i];
             if (sum > maxSum) {
                 maxSum = sum;
             }
@@ -93,7 +116,8 @@ public class MaxSumSubArray {
         System.out.println("循环次数为：" + count);
     }
 
-    private static int subSequenceMaxSum_4(int[] array) {
+    //分治法
+    private static int subSequenceMaxSum_5(int[] array) {
         recursionCount++;
         if (array.length <= 1) {
             return array[0];
@@ -101,7 +125,7 @@ public class MaxSumSubArray {
         int middle = array.length / 2;
         int[] leftArray = Arrays.copyOfRange(array, 0, middle);
         int[] rightArray = Arrays.copyOfRange(array, middle, array.length);
-        int leftMax = subSequenceMaxSum_4(leftArray);
+        int leftMax = subSequenceMaxSum_5(leftArray);
         int leftMaxSum = array[0];
         int leftSum = 0;
         for (int i = 0; i < middle; i++) {
@@ -110,7 +134,7 @@ public class MaxSumSubArray {
                 leftMaxSum = leftSum;
             }
         }
-        int rightMax = subSequenceMaxSum_4(rightArray);
+        int rightMax = subSequenceMaxSum_5(rightArray);
         int rightMaxSum = array[middle];
         int rightSum = 0;
         for (int i = middle; i < array.length; i++) {

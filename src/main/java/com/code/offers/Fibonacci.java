@@ -9,12 +9,24 @@ import java.util.Arrays;
 public class Fibonacci {
 
     private static int count = 0;
+    private static long a = 0;
 
     public static void main(String[] args) {
-        int n = 40;
+        int n = 10;
         getFibonacciArray(n);
         getFibonacciArrayRecursion(n);
         System.out.println("栈调用深度：" + count);
+        try {
+            //结合-Xss128k参数使用
+            kk();
+        } catch (StackOverflowError e) {
+            System.out.println(e.toString() + "，递归深度: " + a);
+        }
+    }
+
+    private static void kk() {
+        a++;
+        kk();
     }
 
     private static int[] getFibonacciArray(int n) {
@@ -30,8 +42,6 @@ public class Fibonacci {
 
     //递归实现
     private static int recursion(int n) {
-        byte[] b = new byte[1024];
-        System.out.println(b.length);
         count++;
         if (n == 1) return 1;
         if (n == 2) return 1;
