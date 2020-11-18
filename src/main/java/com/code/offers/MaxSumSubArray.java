@@ -10,9 +10,9 @@ public class MaxSumSubArray {
     private static int recursionCount = 0;
 
     public static void main(String[] args) {
-        int[] arr = {-2, 11, -4, 13, -5, -2};
+//        int[] arr = {-2, 11, -4, 13, -5, -2};
 //        int[] arr = {-3, -11, -4, -13, -5, -2};
-//        int[] arr = {1, 2, 3, 4, 5, 6};
+        int[] arr = {1, 2, 3, 4, 5, 6};
         System.out.println("原始数组：" + Arrays.toString(arr));
         System.out.println("****************穷举法****************");
         subSequenceMaxSum_1(arr);
@@ -23,7 +23,7 @@ public class MaxSumSubArray {
         System.out.println("****************动态规划（优化）****************");
         subSequenceMaxSum_4(arr);
         System.out.println("****************分治法****************");
-        int max = subSequenceMaxSum_5(arr);
+        int max = subSequenceMaxSum_5(arr, 0, 5);
         System.out.println("最大子序列和：" + max);
         System.out.println("递归调用次数为：" + recursionCount);
     }
@@ -117,43 +117,42 @@ public class MaxSumSubArray {
     }
 
     //分治法
-    private static int subSequenceMaxSum_5(int[] array) {
+    private static int subSequenceMaxSum_5(int[] array, int left, int right) {
         recursionCount++;
-        if (array.length <= 1) {
-            return array[0];
+        if (left == right) {
+            return array[left];
         }
-        int middle = array.length / 2;
-        int[] leftArray = Arrays.copyOfRange(array, 0, middle);
-        int[] rightArray = Arrays.copyOfRange(array, middle, array.length);
-        int leftMax = subSequenceMaxSum_5(leftArray);
-        int leftMaxSum = array[0];
-        int leftSum = 0;
-        for (int i = 0; i < middle; i++) {
-            leftSum += array[i];
-            if (leftSum > leftMaxSum) {
-                leftMaxSum = leftSum;
-            }
-        }
-        int rightMax = subSequenceMaxSum_5(rightArray);
-        int rightMaxSum = array[middle];
-        int rightSum = 0;
-        for (int i = middle; i < array.length; i++) {
-            rightSum += array[i];
-            if (rightSum > rightMaxSum) {
-                rightMaxSum = rightSum;
-            }
-        }
-        return max(leftMaxSum + rightMaxSum, leftMax, rightMax);
-    }
-
-    private static int max(int tempMax, int leftMax, int rightMax) {
-        int max = tempMax;
-        if (leftMax > max) {
-            max = leftMax;
-        }
+        int middle = (left + right) / 2;
+        int leftMax = subSequenceMaxSum_5(array, left, middle);//左边和最大值
+        int rightMax = subSequenceMaxSum_5(array, middle + 1, right);//右边和最大值
+        int middleMax = middleMax(array, left, right, middle);
+        int max = leftMax;
         if (rightMax > max) {
             max = rightMax;
         }
+        if (middleMax > max) {
+            max = middleMax;
+        }
         return max;
+    }
+
+    private static int middleMax(int[] array, int left, int right, int middle) {
+        int left_max = array[middle];
+        int right_max = array[middle + 1];
+        int sum = 0;
+        for (int i = middle; i >= left; i--) {
+            sum += array[i];
+            if (sum > left_max) {
+                left_max = sum;
+            }
+        }
+        sum = 0;
+        for (int j = middle + 1; j <= right; j++) {
+            sum += array[j];
+            if (sum > right_max) {
+                right_max = sum;
+            }
+        }
+        return left_max + right_max;
     }
 }
