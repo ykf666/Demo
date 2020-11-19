@@ -178,13 +178,15 @@ public class PecsMain {
         }
 
         public void pushAll(Iterable<E> src) {
-            for (E e : src)
+            for (E e : src) {
                 push(e);
+            }
         }
 
         public void pushAllExtends(Iterable<? extends E> src) {
-            for (E e : src)
+            for (E e : src) {
                 push(e);
+            }
         }
 
         public void popAll(Collection<E> dst) {
@@ -193,7 +195,6 @@ public class PecsMain {
                     dst.add(pop());
                 }
             }
-
         }
 
         public void popAllSuper(Collection<? super E> dst) {
