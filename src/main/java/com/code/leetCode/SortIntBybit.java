@@ -1,8 +1,9 @@
 package com.code.leetCode;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by yankefei on 2020/12/2.
@@ -11,11 +12,12 @@ import java.util.*;
 public class SortIntBybit {
 
     public static void main(String[] args) {
-        int[] array = {8, 11, 17, 190, 32, 226};
+        int[] array = {32, 11, 17, 190, 8, 226};
+        System.out.println("排序前：" + Arrays.toString(array));
         List<Integer> list = new ArrayList<>();
         for (int i : array) {
             list.add(i);
-            System.out.println(statisticsCountOne(i) + "   " + getBits(i));
+            System.out.println(statisticsCountOne(i) + " " + getBits(i));
         }
         Collections.sort(list, (o1, o2) -> {
             int c = statisticsCountOne(o1) - statisticsCountOne(o2);
@@ -25,7 +27,8 @@ public class SortIntBybit {
                 return c;
             }
         });
-        System.out.println(StringUtils.join(list, " ,"));
+        System.out.print("排序后：");
+        list.forEach((item) -> System.out.print(item + " "));
     }
 
     private static String getBits(int value) {
