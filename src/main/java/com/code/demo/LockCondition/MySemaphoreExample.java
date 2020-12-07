@@ -1,6 +1,5 @@
 package com.code.demo.LockCondition;
 
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**

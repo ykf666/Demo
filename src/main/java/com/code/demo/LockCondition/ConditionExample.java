@@ -15,6 +15,10 @@ public class ConditionExample {
                 try {
                     buffer.put(i);
                     ++i;
+                    if (i == 5) {
+                        System.out.println("put子线程退出");
+                        break;
+                    }
                     TimeUnit.SECONDS.sleep(6);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -24,15 +28,18 @@ public class ConditionExample {
         new Thread(() -> {
             while (true) {
                 try {
-                    buffer.take();
+                    Integer item = (Integer) buffer.take();
+                    if (item == 4) {
+                        System.out.println("take子线程退出");
+                        break;
+                    }
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-        while (true) {
-            TimeUnit.SECONDS.sleep(5);
-        }
+        //等待子线程结束
+        Thread.currentThread().join();
     }
 }
