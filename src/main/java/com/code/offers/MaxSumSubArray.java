@@ -3,6 +3,7 @@ package com.code.offers;
 import java.util.Arrays;
 
 /**
+ * 求整数序列中子序列的和最大值
  * Created by yankefei on 2020/5/9.
  */
 public class MaxSumSubArray {
