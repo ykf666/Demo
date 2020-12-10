@@ -7,39 +7,55 @@ import java.util.concurrent.TimeUnit;
  */
 public class ConditionExample {
 
+    final static ConditionBoundedArrayQueueSrc buffer = new ConditionBoundedArrayQueueSrc();
+//  final static ConditionBoundedArrayQueue buffer = new ConditionBoundedArrayQueue<Integer>();
+
     public static void main(String[] args) throws InterruptedException {
-        ConditionBoundedArrayQueue buffer = new ConditionBoundedArrayQueue<Integer>();
-        new Thread(() -> {
+        for (int i = 1; i <= 3; i++) {
+            new Producer("producer-" + i).start();
+        }
+        for (int i = 1; i <= 2; i++) {
+            new Consumer("consumer-" + i).start();
+        }
+        //主线程等待，一直运行下去
+        Thread.currentThread().join();
+    }
+
+    private static class Producer extends Thread {
+
+        Producer(String threadName) {
+            this.setName(threadName);
+        }
+
+        public void run() {
             Integer i = 1;
             while (true) {
                 try {
                     buffer.put(i);
-                    ++i;
-                    if (i == 5) {
-                        System.out.println("put子线程退出");
-                        break;
-                    }
-                    TimeUnit.SECONDS.sleep(6);
+                    i++;
+                    TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
-        new Thread(() -> {
+        }
+    }
+
+    private static class Consumer extends Thread {
+
+        Consumer(String threadName) {
+            this.setName(threadName);
+        }
+
+        public void run() {
             while (true) {
                 try {
-                    Integer item = (Integer) buffer.take();
-                    if (item == 4) {
-                        System.out.println("take子线程退出");
-                        break;
-                    }
-                    TimeUnit.SECONDS.sleep(2);
+                    buffer.take();
+                    TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
-        //等待子线程结束
-        Thread.currentThread().join();
+        }
     }
 }

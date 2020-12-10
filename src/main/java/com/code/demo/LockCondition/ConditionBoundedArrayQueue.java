@@ -20,16 +20,17 @@ public class ConditionBoundedArrayQueue<T> {
 
     public void put(T item) throws InterruptedException {
         lock.lock();
+        String threadName = Thread.currentThread().getName();
         try {
             while (count == items.length) {
-                System.out.println("缓存已满，wait...");
+                System.out.println("queue has full, " + threadName + " wait");
                 notFull.await();
             }
             items[tail] = item;
             if (++tail == items.length)
                 tail = 0;
             ++count;
-            System.out.println("put - " + item);
+            System.out.println(threadName + " put - " + item);
             notEmpty.signal();
         } finally {
             lock.unlock();
@@ -38,16 +39,17 @@ public class ConditionBoundedArrayQueue<T> {
 
     public T take() throws InterruptedException {
         lock.lock();
+        String threadName = Thread.currentThread().getName();
         try {
             while (count == 0) {
-                System.out.println("缓存为空，wait...");
+                System.out.println("queue is null, " + threadName + " wait");
                 notEmpty.await();
             }
             T t = items[head];
             if (++head == items.length)
                 head = 0;
             --count;
-            System.out.println("take - " + t);
+            System.out.println(Thread.currentThread().getName() + " take - " + t);
             notFull.signal();
             return t;
         } finally {
