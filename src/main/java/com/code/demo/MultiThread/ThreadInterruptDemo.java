@@ -1,5 +1,7 @@
 package com.code.demo.MultiThread;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by yankefei on 2018/11/26.
  */
@@ -11,13 +13,22 @@ public class ThreadInterruptDemo implements Runnable {
     public static void main(String[] args) throws InterruptedException {
         Thread testThread = new Thread(new ThreadInterruptDemo(), "ThreadInterruptDemo");
         testThread.start();
-        Thread.sleep(1000);
         ThreadInterruptDemo.isBlock = true;
-        testThread.interrupt();
-        while (testThread.isInterrupted()){
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            testThread.interrupt();
+        }).start();
+        int count = 0;
+        while (testThread.isInterrupted()) {
+            count++;
             System.out.println("testThread have interrupted!");
         }
-        System.out.println("main end");
+        testThread.join();
+        System.out.println("count=" + count + ", main end");
     }
 
     @Override
