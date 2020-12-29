@@ -3,7 +3,7 @@ package com.code.leetCode;
 /**
  * Created by yankefei on 2020/12/11.
  */
-public class Test {
+public class DP_GiveChange {
 
     public static void main(String[] args) {
         int[] arr = {5, 5, 5, 10, 5, 5, 10, 20, 20, 20};

@@ -1,9 +1,6 @@
 package com.code.designPatterns.Iterator;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -11,7 +8,7 @@ import java.util.function.Consumer;
  */
 public class BookList implements Iterable<Book> {
 
-    private LinkedList<Book> books = new LinkedList<>();
+    private List<Book> books = new ArrayList<>();
 
     public void add(Book book) {
         books.add(book);
