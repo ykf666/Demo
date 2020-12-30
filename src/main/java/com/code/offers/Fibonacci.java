@@ -18,6 +18,7 @@ public class Fibonacci {
         System.out.println("栈调用深度：" + count);
         try {
             //结合-Xss128k参数使用
+            //The stack size specified is too small, Specify at least 108k
             kk();
         } catch (StackOverflowError e) {
             System.out.println(e.toString() + "，递归深度: " + a);
