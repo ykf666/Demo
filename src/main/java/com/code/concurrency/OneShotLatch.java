@@ -1,12 +1,7 @@
 package com.code.concurrency;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
 
 /**
  * AQS实现二元闭锁
@@ -24,14 +19,51 @@ public class OneShotLatch {
         sync.acquireSharedInterruptibly(0);
     }
 
-    private class Sync extends AbstractQueuedSynchronizer {
+    private class Sync extends AbstractQueuedLongSynchronizer {
+
+        //独占模式获取锁NoFair
         @Override
-        protected int tryAcquireShared(int arg) {
+        protected boolean tryAcquire(long arg) {
+            final Thread current = Thread.currentThread();
+            long c = getState();
+            if (c == 0) {
+                if (compareAndSetState(0, arg)) {
+                    setExclusiveOwnerThread(current);
+                    return true;
+                }
+            } else if (current == getExclusiveOwnerThread()) {
+                long nextc = c + arg;
+                if (nextc < 0) // overflow
+                    throw new Error("Maximum lock count exceeded");
+                setState(nextc);
+                return true;
+            }
+            return false;
+        }
+
+        //独占模式释放锁Nofair
+        @Override
+        protected boolean tryRelease(long arg) {
+            long c = getState() - arg;
+            if (Thread.currentThread() != getExclusiveOwnerThread())
+                throw new IllegalMonitorStateException();
+            boolean free = false;
+            if (c == 0) {
+                free = true;
+                setExclusiveOwnerThread(null);
+            }
+            setState(c);
+            return free;
+        }
+
+        //共享模式获取锁
+        @Override
+        protected long tryAcquireShared(long arg) {
             return getState() == 1 ? 1 : -1;
         }
 
         @Override
-        protected boolean tryReleaseShared(int arg) {
+        protected boolean tryReleaseShared(long arg) {
             setState(1);
             return true;
         }
@@ -39,21 +71,6 @@ public class OneShotLatch {
 
     public static void main(String[] args) {
         OneShotLatch oneShotLatch = new OneShotLatch();
-        Semaphore semaphore = new Semaphore(5);
-        ReentrantLock reentrantLock = new ReentrantLock();
-        ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
-        Map map = new HashMap();
-        int h;
-        String a = "2";
-        char[] chars = a.toCharArray();
-        System.out.println((int) chars[0]);
-        System.out.println(0 + chars[0]);
-        System.out.println(a.hashCode());
-        int h2 = (h = a.hashCode()) ^ (h >>> 16);
-        System.out.println(h2);
-        map.put(a, "2");
-        map.put(a, "3");
-
         for (int i = 1; i <= 10; i++) {
             new UserThread(oneShotLatch).start();
         }
@@ -79,6 +96,9 @@ public class OneShotLatch {
         public void run() {
             try {
                 oneShotLatch.await();
+                if (this.isInterrupted()) {
+                    System.out.println("线程" + this.getName() + "已中断");
+                }
                 TimeUnit.SECONDS.sleep(2);
                 System.out.println(Thread.currentThread().getName() + "执行完毕");
             } catch (InterruptedException e) {
