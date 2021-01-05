@@ -11,17 +11,17 @@
 			</run>
 		</groups>
 		<packages>
-			<package name="com.code.demo.Unit.testng"></package>
+			<package name="com.code.basic.Unit.testng"></package>
 		</packages>
 	</test>
 	<test name="classTest">
 		<classes>
-			<class name="com.code.demo.Unit.testng.DataProviderTest"></class>
+			<class name="com.code.basic.Unit.testng.DataProviderTest"></class>
 		</classes>
 	</test>
 	<test name="paramTest">
 		<classes>
-			<class name="com.code.demo.Unit.testng.ParamTest">
+			<class name="com.code.basic.Unit.testng.ParamTest">
 				<parameter name="param0" value="hello"></parameter>
 				<parameter name="param1" value="world"></parameter>
 			</class>
@@ -29,7 +29,7 @@
 	</test>
 	<test name="packageTest">
 		<packages>
-			<package name="com.code.demo.Unit.testng.packages"></package>
+			<package name="com.code.basic.Unit.testng.packages"></package>
 		</packages>
 	</test>
 </suite>
