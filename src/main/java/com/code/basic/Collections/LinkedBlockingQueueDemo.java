@@ -1,20 +1,20 @@
 package com.code.basic.Collections;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by yankefei on 2021/1/5.
+ * Created by yankefei on 2021/1/7.
  * 队列常用方法：
  * offer() <--> poll()
  * put() <--> take()
  * peek()
  */
-public class ArrayBlockingQueueDemo {
+public class LinkedBlockingQueueDemo {
 
     public static void main(String[] args) {
-        //数组实现的有界阻塞队列（线程安全）
-        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(10);
+        //链表实现的有界（默认Integer.MAX_VALUE）阻塞队列（线程安全，并且使用两把锁takeLock和putLock）
+        LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
         //add(), 添加元素，如果队列已满，则抛出异常，基于offer方法实现
         queue.add(1);
         //offer(), 添加元素，如果队列已满，返回false
