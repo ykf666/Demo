@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by yankefei on 2021/1/7.
  * 队列常用方法：
+ * add() <--> remove()
  * offer() <--> poll()
  * put() <--> take()
  * peek()
@@ -53,6 +54,7 @@ public class LinkedBlockingQueueDemo {
         //peek(), 查看队列头部元素，如果队列为空，返回nulll
         Integer e4 = queue.peek();
         System.out.println("peek()方法返回队列头部元素：" + e4);
+        //remove(),删除队列头部元素，如果队列为空，抛出异常，基于poll()方法实现
         queue.remove();
         queue.forEach((item) -> System.out.print(item + " "));
     }
