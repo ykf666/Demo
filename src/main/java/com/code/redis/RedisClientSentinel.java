@@ -1,11 +1,10 @@
 package com.code.redis;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.params.SetParams;
 
@@ -16,9 +15,9 @@ import java.util.Set;
 /**
  * Created by yankefei on 2021/1/18.
  */
-public class RedisClient {
+public class RedisClientSentinel {
 
-    private final static Logger log = LoggerFactory.getLogger(RedisClient.class);
+    private final static Logger log = LoggerFactory.getLogger(RedisClientSentinel.class);
 
     //连接实例的最大连接数
     private static int MAX_ACTIVE = 60;
@@ -31,24 +30,23 @@ public class RedisClient {
     // 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
     private static boolean TEST_ON_BORROW = true;
 
-    private static JedisPool jedisPool = null;
+    private static JedisSentinelPool jedisSentinelPool = null;
     //数据库模式是16个数据库 0~15
     public static final int DEFAULT_DATABASE = 0;
 
-    public RedisClient(String host, int port, String auth) {
-        //初始化Redis连接池
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(MAX_ACTIVE);
-        jedisPoolConfig.setMaxIdle(MAX_IDLE);
-        jedisPoolConfig.setMaxWaitMillis(MAX_WAIT);
-        jedisPoolConfig.setTestOnBorrow(TEST_ON_BORROW);
-        jedisPool = new JedisPool(jedisPoolConfig, host, port, TIMEOUT, auth, DEFAULT_DATABASE);
+    public RedisClientSentinel(String masterName, Set<String> sentinels, String auth){
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig<>();
+        poolConfig.setMaxTotal(MAX_ACTIVE);
+        poolConfig.setMaxIdle(MAX_IDLE);
+        poolConfig.setMaxWaitMillis(MAX_WAIT);
+        poolConfig.setTestOnBorrow(TEST_ON_BORROW);
+        jedisSentinelPool = new JedisSentinelPool(masterName, sentinels, poolConfig);
     }
 
     public String getKey(String key) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             return jedis.get(key);
         } catch (Exception e) {
             log.error("redis异常", e);
@@ -63,7 +61,7 @@ public class RedisClient {
     public void setKey(String key, String value) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             jedis.set(key, value);
         } catch (Exception e) {
             log.error("redis异常", e);
@@ -77,7 +75,7 @@ public class RedisClient {
     public String setKey(String key, String value, int expire, boolean nx) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             SetParams setParams = SetParams.setParams();
             if (expire > 0) {
                 setParams.ex(expire);
@@ -103,7 +101,7 @@ public class RedisClient {
         Jedis jedis = null;
         List<String> list = new ArrayList<>();
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             long total = jedis.llen(key);
             if (total <= 0) {
                 return list;
@@ -122,7 +120,7 @@ public class RedisClient {
     public void clearList(String key) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             jedis.ltrim(key, 1, 0);
         } catch (Exception e) {
             log.error("redis异常", e);
@@ -144,7 +142,7 @@ public class RedisClient {
         Jedis jedis = null;
         try {
             if (StringUtils.isNotBlank(message)) {
-                jedis = jedisPool.getResource();
+                jedis = jedisSentinelPool.getResource();
                 long index = 0;
                 if (priority == 1) {
                     //插入队头
@@ -174,7 +172,7 @@ public class RedisClient {
     public long lenList(String key) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             return jedis.llen(key);
         } catch (Exception e) {
             log.error("redis写入异常", e);
@@ -197,7 +195,7 @@ public class RedisClient {
         Jedis jedis = null;
         try {
             if (StringUtils.isNotBlank(key)) {
-                jedis = jedisPool.getResource();
+                jedis = jedisSentinelPool.getResource();
                 jedis.hset(key, field, value);
                 //过期时间12小时
                 jedis.expire(key, (12 * 60 * 60));
@@ -223,7 +221,7 @@ public class RedisClient {
     public String hashGet(String key, String field) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = jedisSentinelPool.getResource();
             long ttl = jedis.ttl(key);
             if (ttl == -1) {
                 jedis.expire(key, (12 * 60 * 60));
@@ -240,7 +238,7 @@ public class RedisClient {
         return null;
     }
 
-    public void closeJedisPool() {
-        jedisPool.close();
+    public void closejedisSentinelPool() {
+        jedisSentinelPool.close();
     }
 }
