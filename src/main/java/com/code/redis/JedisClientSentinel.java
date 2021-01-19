@@ -15,9 +15,9 @@ import java.util.Set;
 /**
  * Created by yankefei on 2021/1/18.
  */
-public class RedisClientSentinel {
+public class JedisClientSentinel {
 
-    private final static Logger log = LoggerFactory.getLogger(RedisClientSentinel.class);
+    private final static Logger log = LoggerFactory.getLogger(JedisClientSentinel.class);
 
     //连接实例的最大连接数
     private static int MAX_ACTIVE = 60;
@@ -26,7 +26,7 @@ public class RedisClientSentinel {
     //等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException
     private static int MAX_WAIT = 8000;
     //连接超时的时间　　
-    private static int TIMEOUT = 8000;
+    private static int TIMEOUT = 2000;
     // 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
     private static boolean TEST_ON_BORROW = true;
 
@@ -34,19 +34,20 @@ public class RedisClientSentinel {
     //数据库模式是16个数据库 0~15
     public static final int DEFAULT_DATABASE = 0;
 
-    public RedisClientSentinel(String masterName, Set<String> sentinels, String auth){
+    public JedisClientSentinel(String masterName, Set<String> sentinels, String auth) {
         GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig<>();
         poolConfig.setMaxTotal(MAX_ACTIVE);
         poolConfig.setMaxIdle(MAX_IDLE);
         poolConfig.setMaxWaitMillis(MAX_WAIT);
         poolConfig.setTestOnBorrow(TEST_ON_BORROW);
-        jedisSentinelPool = new JedisSentinelPool(masterName, sentinels, poolConfig);
+        jedisSentinelPool = new JedisSentinelPool(masterName, sentinels, poolConfig, TIMEOUT, auth, DEFAULT_DATABASE);
     }
 
     public String getKey(String key) {
         Jedis jedis = null;
         try {
             jedis = jedisSentinelPool.getResource();
+            log.info("redis客户端getKey()方法，连接远程端口：{}", jedis.getClient().getSocket().getPort());
             return jedis.get(key);
         } catch (Exception e) {
             log.error("redis异常", e);
@@ -62,6 +63,7 @@ public class RedisClientSentinel {
         Jedis jedis = null;
         try {
             jedis = jedisSentinelPool.getResource();
+            log.info("redis客户端setKey()方法，连接远程端口：{}", jedis.getClient().getSocket().getPort());
             jedis.set(key, value);
         } catch (Exception e) {
             log.error("redis异常", e);
