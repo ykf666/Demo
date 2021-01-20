@@ -19,7 +19,7 @@ public class MyRedissonClient {
 
     public MyRedissonClient(String ip, int port, String auth) {
         Config config = new Config();
-        config.setTransportMode(TransportMode.NIO).useSingleServer().setAddress("redis://" + ip + ":" + port).setPassword(auth);
+        config.useSingleServer().setSslEnableEndpointIdentification(false).setAddress("redis://" + ip + ":" + port).setPassword(auth);
         redissonClient = Redisson.create(config);
     }
 

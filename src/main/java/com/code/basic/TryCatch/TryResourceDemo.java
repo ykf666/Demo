@@ -1,4 +1,4 @@
-package com.code.basic.Simple;
+package com.code.basic.TryCatch;
 
 import java.io.File;
 import java.io.FileInputStream;

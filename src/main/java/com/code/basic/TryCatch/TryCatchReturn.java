@@ -1,4 +1,4 @@
-package com.code.basic.Simple;
+package com.code.basic.TryCatch;
 
 /**
  * Created by yankefei on 2021/1/15.
