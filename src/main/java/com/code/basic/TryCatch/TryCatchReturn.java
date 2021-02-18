@@ -14,10 +14,14 @@ public class TryCatchReturn {
     private String exceptionReturn() {
         int i = 1;
         try {
+            //先执行（++i）
             return "a" + (++i);
         } catch (Exception e) {
+            //如果有异常，执行此处的（++i）
             return "b" + (++i);
         } finally {
+            //无论是否有异常，都会执行此处的（++i）
+            //直接return
             return "c" + (++i);
         }
     }

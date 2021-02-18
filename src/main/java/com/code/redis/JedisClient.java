@@ -3,9 +3,7 @@ package com.code.redis;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.*;
 import redis.clients.jedis.params.SetParams;
 
 import java.util.ArrayList;
@@ -32,6 +30,8 @@ public class JedisClient {
     private static JedisPool jedisPool = null;
     //数据库模式是16个数据库 0~15
     public static final int DEFAULT_DATABASE = 0;
+
+    private final static String UNLOCK_SCRIPT = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
 
     public JedisClient(String host, int port, String auth) {
         //初始化Redis连接池
@@ -72,12 +72,21 @@ public class JedisClient {
         }
     }
 
+    /**
+     * @param key
+     * @param value
+     * @param expire
+     * @param nx/xx，nx:只有当key不存在时操作，xx:只有当key存在时操作
+     * @return
+     */
     public String setKey(String key, String value, int expire, boolean nx) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
             SetParams setParams = SetParams.setParams();
             if (expire > 0) {
+                //ex，过期时间单位，秒
+                //px，过期时间单位，毫秒
                 setParams.ex(expire);
             }
             //true=nx, false=xx
@@ -241,4 +250,82 @@ public class JedisClient {
     public void closeJedisPool() {
         jedisPool.close();
     }
+
+    //过期时间单位秒
+    public boolean lock(String lockName, String value, int expire) {
+        String result = this.setKey(lockName, value, expire, true);
+        if ("OK".equals(result)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean unlock(String key, String param) {
+        Jedis jedis = null;
+        try {
+            List<String> keys = new ArrayList<>();
+            List<String> params = new ArrayList<>();
+            keys.add(key);
+            params.add(param);
+            jedis = jedisPool.getResource();
+            Object object = jedis.eval(UNLOCK_SCRIPT, keys, params);
+            if ((long) object == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("redis执行脚本异常", e);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return false;
+    }
+
+    public void flushDB(int dbNo) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            jedis.select(dbNo);
+            long count = jedis.dbSize();
+            System.out.println("当前数据库存在key数量为：" + count);
+            ScanParams params = new ScanParams();
+            params.count(20);
+            String cursor = "0";
+            ScanResult<String> scanResult = jedis.scan(cursor, params);
+            cursor = scanResult.getCursor();
+            while (!"0".equals(cursor)) {
+                List<String> list = scanResult.getResult();
+                System.out.println("获取到keys数：" + list.size());
+                for (String key : list) {
+                    Long ttl = jedis.ttl(key);
+                    if (ttl == -1) {
+                        jedis.del(key);
+                        System.out.println("删除key: " + key);
+                    }
+                }
+                scanResult = jedis.scan(cursor, params);
+                cursor = scanResult.getCursor();
+            }
+            List<String> list2 = scanResult.getResult();
+            System.out.println("获取到keys数：" + list2.size());
+            for (String key : list2) {
+                Long ttl = jedis.ttl(key);
+                if (ttl == -1) {
+                    jedis.del(key);
+                    System.out.println("删除key: " + key);
+                }
+            }
+        } catch (Exception e) {
+            log.error("redis执行脚本异常", e);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
 }

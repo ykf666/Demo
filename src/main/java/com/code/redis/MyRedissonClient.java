@@ -4,8 +4,10 @@ import org.redisson.Redisson;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.StringCodec;
+import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
 import org.redisson.config.MasterSlaveServersConfig;
+import org.redisson.config.SentinelServersConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,7 @@ public class MyRedissonClient {
 
     private RedissonClient redissonClient = null;
 
+    //单机模式
     public MyRedissonClient(String redisUrl, String auth) {
         Config config = new Config();
         //字符串操作需指定codec
@@ -30,7 +33,8 @@ public class MyRedissonClient {
         redissonClient = Redisson.create(config);
     }
 
-    public MyRedissonClient(String master, Set<String> slaves, String auth) {
+    //主从模式
+    public MyRedissonClient(String masterUrl, Set<String> slaves, String auth) {
         Config config = new Config();
         MasterSlaveServersConfig masterSlaveServersConfig =
                 config.setCodec(StringCodec.INSTANCE)
@@ -39,11 +43,41 @@ public class MyRedissonClient {
                         .setMasterConnectionMinimumIdleSize(1)
                         .setSlaveConnectionMinimumIdleSize(1)
                         .setSlaveConnectionPoolSize(1);
-        masterSlaveServersConfig.setMasterAddress(master);
+        masterSlaveServersConfig.setMasterAddress(masterUrl);
         for (String slave : slaves) {
             masterSlaveServersConfig.addSlaveAddress(slave);
         }
         masterSlaveServersConfig.setPassword(auth);
+        redissonClient = Redisson.create(config);
+    }
+
+    //哨兵模式
+    public MyRedissonClient(Set<String> sentinels, String masterName, String auth) {
+        Config config = new Config();
+        SentinelServersConfig sentinelServersConfig = config.setCodec(StringCodec.INSTANCE)
+                .useSentinelServers().setMasterName(masterName)
+                .setMasterConnectionPoolSize(1)
+                .setSlaveConnectionPoolSize(1)
+                .setMasterConnectionMinimumIdleSize(1)
+                .setSlaveConnectionMinimumIdleSize(1)
+                .setPassword(auth);
+        for (String sentinel : sentinels) {
+            sentinelServersConfig.addSentinelAddress(sentinel);
+        }
+        redissonClient = Redisson.create(config);
+    }
+
+    //集群模式
+    public MyRedissonClient(Set<String> nodes, String auth) {
+        Config config = new Config();
+        ClusterServersConfig clusterServersConfig = config.setCodec(StringCodec.INSTANCE)
+                .useClusterServers().setMasterConnectionPoolSize(1)
+                .setSlaveConnectionPoolSize(1)
+                .setMasterConnectionMinimumIdleSize(1)
+                .setSlaveConnectionMinimumIdleSize(1).setPassword(auth);
+        for (String node : nodes) {
+            clusterServersConfig.addNodeAddress(node);
+        }
         redissonClient = Redisson.create(config);
     }
 
@@ -67,6 +101,11 @@ public class MyRedissonClient {
         } else {
             LOGGER.error("redisson客户端为空");
         }
+    }
+
+    public void execScript(String script){
+        redissonClient.getScript().scriptLoad(script);
+
     }
 
     public void closeClient() {

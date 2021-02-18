@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class QuickSort {
 
     public static void main(String[] args) {
-        int[] arr = {6, 2, -5, 10, 104, 12, 92, 87};
+        int[] arr = {6, 2, -5, 10, 104, 6, 6, 12, 92, 87};
         quick_sort(arr, 0, arr.length - 1);
     }
 

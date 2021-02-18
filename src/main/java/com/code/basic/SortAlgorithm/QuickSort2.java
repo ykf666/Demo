@@ -35,9 +35,9 @@ public class QuickSort2 {
 
         //设置基准值，将最左端元素作为基准值
         int base = arr[left];
-        while (low < high) {
+        while (low != high) {
             //往左移位，直到小于base
-            while (low < high && arr[high] > base) {
+            while (low < high && arr[high] >= base) {
                 high--;
             }
 
@@ -47,7 +47,7 @@ public class QuickSort2 {
             }
 
             //往右移位，直到大于base
-            while (low < high && arr[low] < base) {
+            while (low < high && arr[low] <= base) {
                 low++;
             }
 
