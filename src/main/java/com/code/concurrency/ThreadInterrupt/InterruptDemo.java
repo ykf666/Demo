@@ -12,7 +12,7 @@ public class InterruptDemo {
             Thread currentThread = Thread.currentThread();
             try {
                 //wait,sleep,join方法会响应线程中断，抛出中断异常且中断标志被清除
-                Thread.sleep(10000);
+                TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {
                 System.out.println("线程中断标志：" + currentThread.isInterrupted());
                 //该方法设置线程中断标志为true
