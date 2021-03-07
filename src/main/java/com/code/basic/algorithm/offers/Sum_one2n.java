@@ -1,4 +1,4 @@
-package com.code.offers;
+package com.code.basic.algorithm.offers;
 
 /**
  * 要求不能使用乘法/除法，以及if/else/while/for等方式

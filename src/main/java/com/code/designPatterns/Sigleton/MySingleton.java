@@ -1,4 +1,4 @@
-package com.code.concurrency.MultiThread;
+package com.code.designPatterns.Sigleton;
 
 /**
  * @author yan.kefei

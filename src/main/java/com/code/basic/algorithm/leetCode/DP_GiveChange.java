@@ -1,4 +1,4 @@
-package com.code.leetCode;
+package com.code.basic.algorithm.leetCode;
 
 /**
  * Created by yankefei on 2020/12/11.

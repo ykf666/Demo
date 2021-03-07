@@ -1,4 +1,4 @@
-package com.code.offers;
+package com.code.basic.algorithm.offers;
 
 import java.util.LinkedList;
 import java.util.Stack;

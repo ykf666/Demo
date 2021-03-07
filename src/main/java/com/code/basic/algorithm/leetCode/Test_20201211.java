@@ -1,6 +1,7 @@
-package com.code.leetCode;
+package com.code.basic.algorithm.leetCode;
 
 import java.util.Arrays;
+import java.util.TreeMap;
 
 /**
  * Created by yankefei on 2020/12/11.
@@ -93,6 +94,13 @@ public class Test_20201211 {
      */
     private static int[] findRoute(int[][] tickets) {
         int[] result = new int[tickets.length];
+        TreeMap treeMap = new TreeMap();
+        for (int[] arr: tickets){
+            int start = arr[0];
+            int end = arr[1];
+            treeMap.put(start, end);
+        }
+
         return result;
     }
 

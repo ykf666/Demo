@@ -285,6 +285,10 @@ public class JedisClient {
         return false;
     }
 
+    /**
+     * 使用scan命令扫描符合条件的key
+     * @param dbNo
+     */
     public void flushDB(int dbNo) {
         Jedis jedis = null;
         try {
