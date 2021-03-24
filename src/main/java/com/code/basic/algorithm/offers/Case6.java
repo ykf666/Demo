@@ -27,6 +27,7 @@ public class Case6 {
             System.out.println(stack.pop());
         }
         //方式二：使用递归
+        //传入头节点，递归输出下一个节点值，即可实现栈相同的功能，逆序打印
     }
 
 }

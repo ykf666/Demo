@@ -27,7 +27,7 @@ public class QuickSort {
 
     private static void quick_sort(int[] arr, int left, int right) {
         //结束迭代
-        if (left > right) {
+        if (left >= right) {
             return;
         }
         int low = left;
