@@ -1,16 +1,24 @@
 package com.code.designPatterns.Iterator;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
+ * 迭代模式
  * Created by yankefei on 2020/12/29.
  */
 public class Main {
 
     public static void main(String[] args) {
-        List<Book> books = new ArrayList<>();
+        BookList bookList = new BookList();
+        bookList.addBook(new Book("book1"));
+        bookList.addBook(new Book("book2"));
+        bookList.addBook(new Book("book3"));
+        bookList.addBook(new Book("book4"));
+        bookList.addBook(new Book("book5"));
+        for (int i = 0; i < bookList.size(); i++) {
+            Book book = bookList.get(i);
+            System.out.println(book.toString());
+        }
+
+/*        List<Book> books = new ArrayList<>();
         books.add(new Book("book1"));
         books.add(new Book("book2"));
         books.add(new Book("book3"));
@@ -26,7 +34,7 @@ public class Main {
             }
             System.out.println("迭代器循环：" + b.getName());
         }
-        books.forEach(item -> System.out.println(item.getName()));
+        books.forEach(item -> System.out.println(item.getName()));*/
     }
 
 }

@@ -19,7 +19,8 @@ public class InterruptDemo {
                 currentThread.interrupt();
                 System.out.println("线程中断标志：" + currentThread.isInterrupted());
                 //静态方法，清除线程中断标志
-                Thread.interrupted();
+                boolean interrupted = Thread.interrupted();
+                System.out.println("线程中断标志：" + interrupted);
                 System.out.println("线程中断标志：" + currentThread.isInterrupted());
             }
         });
