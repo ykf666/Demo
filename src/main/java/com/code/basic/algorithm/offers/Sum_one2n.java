@@ -14,10 +14,16 @@ public class Sum_one2n {
     private static int sum_1(int n) {
         int sum = n;
         boolean result = (n > 0) && (sum += sum_1(n - 1)) > 0;
+        if (!result) {
+            return 0;
+        }
         return sum;
     }
 
     public static int sum_2(int n) {
+        if (n <= 0) {
+            return 0;
+        }
         //n(n+1)/2
         int sum = ((int) (Math.pow(n, 2)) + n) >> 1;
         return sum;

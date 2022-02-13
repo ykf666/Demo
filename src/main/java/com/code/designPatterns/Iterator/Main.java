@@ -1,5 +1,7 @@
 package com.code.designPatterns.Iterator;
 
+import java.util.Iterator;
+
 /**
  * 迭代模式
  * Created by yankefei on 2020/12/29.
@@ -18,6 +20,16 @@ public class Main {
             System.out.println(book.toString());
         }
 
+        Iterator<Book> iterator = bookList.iterator();
+        while (iterator.hasNext()) {
+            Book b = iterator.next();
+            if (b.getName().equals("book2")) {
+                iterator.remove();
+                continue;
+            }
+            System.out.println("迭代器循环：" + b.getName());
+        }
+
 /*        List<Book> books = new ArrayList<>();
         books.add(new Book("book1"));
         books.add(new Book("book2"));
@@ -25,11 +37,11 @@ public class Main {
         books.add(new Book("book4"));
         books.add(new Book("book5"));
         books.forEach(item -> System.out.println(item.getName()));
-        Iterator<Book> iterator = books.iterator();
-        while (iterator.hasNext()) {
-            Book b = iterator.next();
+        Iterator<Book> iterator2 = books.iterator();
+        while (iterator2.hasNext()) {
+            Book b = iterator2.next();
             if (b.getName().equals("book2")) {
-                iterator.remove();
+                iterator2.remove();
                 continue;
             }
             System.out.println("迭代器循环：" + b.getName());

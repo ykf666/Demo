@@ -3,7 +3,7 @@ package com.code.designPatterns.Iterator;
 import java.util.*;
 
 /**
- * 不使用迭代模式时，实现book容器
+ * 实现book容器
  * Created by yankefei on 2022/2/1.
  */
 public class BookList {
@@ -48,25 +48,26 @@ public class BookList {
     }
 
     public Iterator<Book> iterator() {
-        return new BookList().Itr();
+        return new Itr();
     }
 
     private class Itr implements Iterator<Book> {
+        int cursor;
 
-        @Override
-        public void remove() {
-        }
-
-        @Override
         public boolean hasNext() {
-            if (this.index > this.books.size()) {
-                return false;
+            if (cursor != index) {
+                return true;
             }
             return false;
         }
 
-        @Override
         public Book next() {
-            return null;
+            return books.get(cursor++);
+        }
+
+        public void remove() {
+            books.remove(--cursor);
+            index--;
         }
     }
+}
