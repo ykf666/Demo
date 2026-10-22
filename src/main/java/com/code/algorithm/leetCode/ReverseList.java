@@ -1,8 +1,7 @@
 package com.code.algorithm.leetCode;
 
-import java.util.List;
-
 /**
+ * 反转链表
  * Created by yankefei on 2022/4/8.
  */
 public class ReverseList {
@@ -29,6 +28,7 @@ public class ReverseList {
 
         ReverseBetween.ListNode node = head;
         while (node != null) {
+            //临时节点
             ReverseBetween.ListNode next = node.next;
             node.next = dummyNode.next;
             dummyNode.next = node;

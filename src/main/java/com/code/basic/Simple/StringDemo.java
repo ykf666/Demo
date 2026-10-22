@@ -16,5 +16,17 @@ public class StringDemo {
 
         System.out.println(a == c);//false
         System.out.println(a.equals(c));//true
+
+        Short data = null;
+        getValue(data);
+    }
+
+    public static void getValue(short key) {
+        short value = 1;
+        if (value == key) {
+            System.out.println(true);
+        } else {
+            System.out.println(false);
+        }
     }
 }

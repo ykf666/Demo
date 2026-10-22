@@ -1,4 +1,4 @@
-package com.code.concurrency.MultiThread;
+package com.code.concurrency.ThreadLocal;
 
 public class ThreadLocalDemo {
 

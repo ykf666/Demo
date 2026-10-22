@@ -48,7 +48,7 @@ public class MultiFileSort2 {
         int position = -1;
         while (true) {
             for (int i = 0; i < subFileCount; i++) {
-                //如果是不是第一次读取或者不需要读取时，进入下个遍历元素
+                //如果不是第一次读取或者不需要读取时，进入下个遍历元素
                 if (position != i && position != -1) {
                     continue;
                 }
